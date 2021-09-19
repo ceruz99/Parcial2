@@ -1,0 +1,8 @@
+1.Entendimiento del problema.
+
+Se debera de crear algoritmos que nos permitan submuestrear imagenes .JPG y apartir de estas extraer informacion, utilizando las 
+librerias de Qt
+
+
+2. Arduino
+Se creara una matriz M*m
