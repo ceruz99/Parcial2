@@ -4,4 +4,4 @@ Se debera de crear algoritmos que nos permitan submuestrear imagenes .JPG y apar
 librerias de Qt
 
 
-2. Arduino
+2. Arduino, conectar cables
