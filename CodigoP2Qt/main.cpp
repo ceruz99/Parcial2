@@ -139,5 +139,158 @@ int main()
     cout<<endl;
     cout<<endl;
 
+
+    cout<<"DESDE AQUI EMPIEZA EL ALGOTIRMO DE SUBMUESTREO"<<endl;
+
+    QString filename_2 = "../untitled/Imagenes/Minion";
+    QImage Img_2(filename_2);
+
+    //FALTA AGREGAR DOCUMENTACION DEL CODIGO
+
+    //Variables que se necesitaran para el algoritmo
+    int Cntidad_c = 16,Cntidad_f = 16,filas_sumar = Img_2.width()/16,Columnas_sumar = Img_2.height()/16,residuo_1 = Img_2.height()%16,residuo_2 = Img_2.width()%16;
+    int cont_1 = 0, cont_2 = 0,cont_3 = 0,cont_4 = 0,suma = 0,contador_suma = 0,flag = 1, flag_2 = 1;
+
+    //Se crea los arreglos para el almacenamiento de datos y se les da la cantidad de memoria
+    int ArregloAux[16][16],ArregloOriginal[16][16];
+    int **ArregloD;
+    ArregloD = new int*[Img_2.width()];
+
+    for(int i = 0;i<Img_2.width();i++)
+    {
+       ArregloD[i] = new int[Img_2.height()];
+    }
+
+    for(int i = 0; i<Img_2.width(); ++i)
+    {
+        for(int j = 0; j<Img_2.height(); ++j)
+        {
+            *(*(ArregloD+i)+j) = Img_2.pixelColor(i,j).blue();
+        }
+    }
+
+
+    //Explicacion --> ...
+    if(residuo_2 > 0)
+    {
+        cont_4++;
+    }
+    if(residuo_1 > 0)
+    {
+        cont_3++;
+    }
+
+
+    for(int t = 0; t<Cntidad_f;t++)
+    {
+        for(int k = 0; k<Cntidad_c;k++)
+        {
+            for(int  i = cont_2; i<cont_4+filas_sumar; i++)
+            {
+                for(int  j = cont_1; j < cont_3+Columnas_sumar; j++)
+                {
+                    suma+=*(*(ArregloD+i)+j);
+                    contador_suma++;
+                }
+            }
+            if(contador_suma > 0)
+            {
+                ArregloAux[t][k] = suma/contador_suma;
+            }
+            if(residuo_1-1 == 0 && k+1 == Cntidad_c)
+            {
+                cont_1+= (Columnas_sumar+flag);
+                cont_3+= (Columnas_sumar+flag);
+                suma = 0;
+                contador_suma = 0;
+                residuo_1--;
+            }
+            else if(residuo_1-1 == 0 && k+1 != Cntidad_c)
+            {
+                cont_1+= (Columnas_sumar+flag);
+                cont_3+= Columnas_sumar;
+                suma = 0;
+                contador_suma = 0;
+                residuo_1--;
+            }
+            else if(residuo_1 > 0 && ((residuo_1-1)!=0))
+            {
+                cont_1+= (Columnas_sumar+flag);
+                cont_3+= (Columnas_sumar+flag);
+                suma = 0;
+                contador_suma = 0;
+                residuo_1--;
+            }
+            else
+            {
+                cont_1+= Columnas_sumar;
+                cont_3+= Columnas_sumar;
+                suma = 0;
+                contador_suma = 0;
+            }
+        }
+        if(residuo_1 > 0 )
+        {
+            cont_3 = 1;
+        }
+        else
+        {
+            cont_3 = 0;
+        }
+
+        if(residuo_2 > 0 && residuo_2-1 != 0)
+        {
+            cont_2+=(filas_sumar+flag_2);
+            cont_4+=(filas_sumar+flag_2);
+            cont_1 =0;
+            residuo_2--;
+        }
+        else if(residuo_2-1 == 0)
+        {
+            cont_2+=(filas_sumar+flag_2);
+            cont_4+=(filas_sumar);
+            cont_1 =0;
+            residuo_2--;
+        }
+        else
+        {
+            cont_2+=filas_sumar;
+            cont_4+=filas_sumar;
+            cont_1 =0;
+        }
+    }
+
+    cout<<endl<<endl;
+    for(int i = 0; i <16; i++)
+    {
+        for(int j = 0; j <16; j++)
+        {
+            ArregloOriginal[i][j] = ArregloAux[j][i];
+            //cout<<"["<<ArregloOriginal[i][j]<<"]";
+        }
+        //cout<<endl;
+    }
+
+    cout<<endl<<endl;
+
+
+    for(int i=15;i>-1;i--){
+        cout<<"{";
+        for(int j=0;j<16;j++){
+            cout<<ArregloOriginal[i][j];
+            if(j!=15)
+                cout<<",";
+        }
+        if(i==0)
+            cout<<"}";
+        else
+            cout<<"},";
+    }
+    cout<<endl;
+    cout<<endl;
+
+    delete [] ArregloD;
+
+
     return 0;
 }
