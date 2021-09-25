@@ -28,12 +28,12 @@ void ImageResized::Deteccion_Tipo_Muestreo()
 
     if(Ancho > 16 && Alto > 16)
     {
-        qDebug()<<"Se entra al submuestreo"<<endl;
+        qDebug()<<"Se entra al submuestreo \n";
         submuestreo();
     }
     else if(Ancho < 16 && Alto < 16)
     {
-        qDebug()<<"Se entra al sobremuestreo"<<endl;
+        qDebug()<<"Se entra al sobremuestreo\n";
         Sobremuestreo();
     }
 
@@ -114,6 +114,13 @@ void ImageResized::Sobremuestreo()
                     matrizR[tramoy][tramox]=Img.pixelColor(j,i).red();
                     matrizG[tramoy][tramox]=Img.pixelColor(j,i).green();
                     matrizB[tramoy][tramox]=Img.pixelColor(j,i).blue();
+                    //if que validan para evitar la inestabilidad en Tinkercad con el 255.
+                    if(matrizR[tramoy][tramox]==255)
+                        matrizR[tramoy][tramox]-=1;
+                    if(matrizG[tramoy][tramox]==255)
+                        matrizG[tramoy][tramox]-=1;
+                    if(matrizB[tramoy][tramox]==255)
+                        matrizB[tramoy][tramox]-=1;
                     tramox+=1;
                 }
                 tramoy+=1;
@@ -297,9 +304,9 @@ void ImageResized::EnvioDatos(short int MatrizR[][16],short int MatrizG[][16],sh
 
     Archivo.open("../CodigoP2Qt/Datos.txt",ios::out);
 
-    if(!Archivo.fail())
+    if(Archivo.fail())
     {
-        qDebug()<<"Alerta Error"<<endl;
+        cout<<"Alerta Error \n";
     }
 
     Archivo<<"byte Arreglo_tridimesional[3][16][16]="<<endl<<"{"<<endl<<"    {"<<endl<<"        ";
