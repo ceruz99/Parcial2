@@ -318,5 +318,7 @@ int main()
     //ImageResized Objeto("../CodigoP2Qt/Images/estadosUnidos");
     //Objeto.Deteccion_Tipo_Muestreo();
 
+    cout<<"hola"<<endl;
+
     return 0;
 }
