@@ -298,5 +298,7 @@ int main()
     ImageResized Objeto("../CodigoP2Qt/Images/Guyana_G");
     Objeto.Deteccion_Tipo_Muestreo();
 
+    cout<<"hola"<<endl;
+
     return 0;
 }
