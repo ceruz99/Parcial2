@@ -27,6 +27,9 @@ public:
     void Sobremuestreo();
     void submuestreo();
     void EnvioDatos(short int MatrizR[][16],short int MatrizG[][16],short int MatrizB[][16]);
+
+    void sobresubFilas();
+    void sobresubColumn();
 };
 
 #endif // IMAGERESIZED_H
