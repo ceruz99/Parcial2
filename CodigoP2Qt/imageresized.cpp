@@ -28,19 +28,30 @@ void ImageResized::Deteccion_Tipo_Muestreo()
 
     if(Ancho > 16 && Alto > 16)
     {
-        qDebug()<<"Se entra al submuestreo \n";
         submuestreo();
+        cout<<"Se ha realizado el submuestreo \n";
+        system("pause");
+        system("cls");
     }
-    else if(Ancho < 16 && Alto < 16)
+    else if(Ancho <= 16 && Alto <= 16)
     {
-        qDebug()<<"Se entra al sobremuestreo\n";
         Sobremuestreo();
+        cout<<"Se ha realizado el sobremuestreo\n";
+        system("pause");
+        system("cls");
     }
-    else if(Ancho > 16 && Alto <16 ){
+    else if(Ancho > 16 && Alto <16 )
+    {
         sobresubFilas();
+        cout<<"Se ha realizado el proceso de sobremuestreo y submuestro \n";
+        system("pause");
+        system("cls");
     }
-    else if(Ancho < 16 && Alto > 16){
+    else if(Ancho < 16 && Alto > 16){        
         sobresubColumn();
+        cout<<"Se ha realizado el proceso de sobremuestreo y submuestro \n";
+        system("pause");
+        system("cls");
     }
 
 }
