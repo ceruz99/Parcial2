@@ -7,8 +7,6 @@ using namespace std;
 
 
 int main(){
-    //ImageResized Objeto("../CodigoP2Qt/Images/nigeria16x8");
-    //Objeto.Deteccion_Tipo_Muestreo();
     bool trabajando=true;
     while(trabajando==true){
         cout<<"Ingrese una de las opciones:"<<endl;
@@ -37,7 +35,6 @@ int main(){
             break;
         }
         }
-
     }
     return 0;
 }
