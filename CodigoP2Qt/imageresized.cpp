@@ -22,6 +22,9 @@ string ImageResized::ObtenerNombre()
 
 void ImageResized::Deteccion_Tipo_Muestreo()
 {
+
+    //Esta funcion calcula deacuerdo a la imagen ingresa que tipo de muestreo debe de utilizar
+
     QImage Imagen(Filename.c_str());
 
     int Ancho = Imagen.width(), Alto = Imagen.height();
@@ -41,6 +44,13 @@ void ImageResized::Deteccion_Tipo_Muestreo()
         system("cls");
     }
     else if(Ancho > 16 && Alto <16 )
+    {
+        sobresubFilas();
+        cout<<"Se ha realizado el proceso de sobremuestreo y submuestro \n";
+        system("pause");
+        system("cls");
+    }
+    else if(Ancho > 16 && Alto <=16 )
     {
         sobresubFilas();
         cout<<"Se ha realizado el proceso de sobremuestreo y submuestro \n";
@@ -159,7 +169,15 @@ void ImageResized::submuestreo()
 {
     QImage Img_2(Filename.c_str());
 
-    //FALTA AGREGAR DOCUMENTACION DEL CODIGO
+    //MatrizR,MatrizG,MatrizB,ArregloAux son matrices que almacenan datos tipo entero
+    //filas_sumar y columnas_sumar son variables tipo entero que almacenan la cantidad de filas y columnas que debemos de sumar en cada x iteraciones
+    //residuo_1 y residuo_2 son variables tipo entero el cual almacenan el numero de filas y columnas que debemos de sumar a las variables
+    //filas sumar y columnas sumar para que la perdida de datos no sea tan  grande
+    //**ArregloD es una matriz dinamica para almacenar losdatos de la imagen ingresada
+
+    //esta funcion calcula el promedio de datos de una region comprendida entre m filas y n columnas calculadas, el promedio correpondera
+    //a un pixel de la matriz de leds 16x16, a cada filas cumar y columnas sumar se le suma un factor de una unidad y ademas se le resta un factor de una unidad
+    //a residuo_1 y residuo_2 para que la perdida de datos sea la minima posible
 
     int short MatrizR[16][16],MatrizG[16][16],MatrizB[16][16];
 
@@ -174,7 +192,7 @@ void ImageResized::submuestreo()
         int **ArregloD;
         ArregloD = new int*[Img_2.width()];
 
-        for(int i = 0;i<Img_2.width();i++)
+        for(int i = 0;i<Img_2.width();i++)//Aqui se inicializa la matriz dinamica
         {
            ArregloD[i] = new int[Img_2.height()];
         }
@@ -198,8 +216,6 @@ void ImageResized::submuestreo()
             }
         }
 
-
-        //Explicacion --> ...
         if(residuo_2 > 0)
         {
             cont_4++;
@@ -214,7 +230,7 @@ void ImageResized::submuestreo()
             }
             for(int k = 0; k<Cntidad_c;k++)
             {
-                for(int  i = cont_2; i<cont_4+filas_sumar; i++)
+                for(int  i = cont_2; i<cont_4+filas_sumar; i++)//En este for anidado se suman los n datos par sacar el promedio de la region de datos
                 {
                     for(int  j = cont_1; j < cont_3+Columnas_sumar; j++)
                     {
@@ -222,9 +238,16 @@ void ImageResized::submuestreo()
                         contador_suma++;
                     }
                 }
-                if(contador_suma > 0)
+                if(contador_suma > 0)//diferentes condicionales para el buen funcionamiento del programa, mas aun estos calculan la frontera de cada columna y fila
                 {
-                    ArregloAux[t][k] = suma/contador_suma;
+                    if((suma/contador_suma) == 255)
+                    {
+                        ArregloAux[t][k] = ((suma/contador_suma)-1);
+                    }
+                    else
+                    {
+                        ArregloAux[t][k] = suma/contador_suma;
+                    }
                 }
                 if(residuo_1-1 == 0 && k+1 == Cntidad_c)
                 {
@@ -289,12 +312,13 @@ void ImageResized::submuestreo()
             }
         }
 
-        for(int i = 0; i <16; i++)
+        for(int i = 0; i <16; i++)//for para el guardado de los datos correpondientes a cada matriz
         {
             for(int j = 0; j <16; j++)
             {
                 if(primario == 0)
                 {
+
                     MatrizR[i][j] = ArregloAux[j][i];
                 }
                 else if(primario == 1)
@@ -395,7 +419,8 @@ void ImageResized::EnvioDatos(short int MatrizR[][16],short int MatrizG[][16],sh
     Archivo.close();
 }
 
-void ImageResized::sobresubFilas(){
+void ImageResized::sobresubFilas()
+{
     QImage Img(Filename.c_str());
 
     short int MatrizR[16][Img.height()],MatrizG[16][Img.height()],MatrizB[16][Img.height()];
@@ -403,11 +428,16 @@ void ImageResized::sobresubFilas(){
     for(int principal = 0; principal<3; principal++)
     {
         int Ancho = Img.width(),Minimo = 0,Residuo = 0,saltador = 0;
-        int Arreglo[Img.width()][Img.height()];
+        int **ArrayDinamic = new int*[Img.width()];
+
+        for(int i = 0; i<Img.width();i++)
+        {
+            ArrayDinamic[i] = new int[Img.height()];
+        }
 
         Minimo = Ancho/16;
         Residuo = Ancho%16;
-        int Arreglo_muestre[16][Img.height()];
+        int Arreglo_muestre_2[16][Img.height()];
 
         for(int i = 0; i<Img.width();i++)
         {
@@ -415,15 +445,15 @@ void ImageResized::sobresubFilas(){
             {
                 if(principal == 0)
                 {
-                    Arreglo[i][j] = Img.pixelColor(i,j).red();
+                    *(*(ArrayDinamic+i)+j) = Img.pixelColor(i,j).red();
                 }
                 else if(principal == 1)
                 {
-                    Arreglo[i][j] = Img.pixelColor(i,j).green();
+                    *(*(ArrayDinamic+i)+j) = Img.pixelColor(i,j).green();
                 }
                 else if(principal)
                 {
-                    Arreglo[i][j] = Img.pixelColor(i,j).blue();
+                    *(*(ArrayDinamic+i)+j) = Img.pixelColor(i,j).blue();
                 }
             }
         }
@@ -432,7 +462,15 @@ void ImageResized::sobresubFilas(){
         {
             for(int j = 0; j<Img.height();j++)
             {
-                Arreglo_muestre[i][j] = Arreglo[i+saltador][j];
+                int Cambio = *(*(ArrayDinamic+(i+saltador))+j);
+                if(Cambio == 255)
+                {
+                    Arreglo_muestre_2[i][j] = 254;
+                }
+                else
+                {
+                    Arreglo_muestre_2[i][j] = *(*(ArrayDinamic+(i+saltador))+j);
+                }
             }
             if(Residuo>0)
             {
@@ -451,21 +489,26 @@ void ImageResized::sobresubFilas(){
             {
                 if(principal == 0)
                 {
-                    MatrizR[i][j] = Arreglo_muestre[i][j];
+                    MatrizR[i][j] = Arreglo_muestre_2[i][j];
+                    //cout<<"["<< Arreglo_muestre_2[i][j]<<"]";
                 }
                 else if(principal == 1)
                 {
-                    MatrizG[i][j] = Arreglo_muestre[i][j];
+                    MatrizG[i][j] = Arreglo_muestre_2[i][j];
+                    //cout<<"["<< Arreglo_muestre_2[i][j]<<"]";
                 }
                 else if(principal == 2)
                 {
-                    MatrizB[i][j] = Arreglo_muestre[i][j];
+                    MatrizB[i][j] = Arreglo_muestre_2[i][j];
+                    //cout<<"["<< Arreglo_muestre_2[i][j]<<"]";
                 }
-
-
             }
+            //cout<<endl;
         }
+
+        delete [] ArrayDinamic;
     }
+
     int x=16;
     int y=Img.height();
     int factorx=1,factory=1,faltantex=0,faltantey=0, tramox=0, tramoy=0, tramoFx=0, tramoFy=0;
@@ -532,53 +575,6 @@ void ImageResized::sobresubFilas(){
         faltantex=16-(x*factorx);
         factorx+=1;
     }
-    /*
-    A continuación se imprimen los diferentes valores RGB para la matriz de leds en Tinkercad,
-    estos se imprimen desde la última fila hasta la primera.
-    for(int i=15;i>-1;i--){
-        cout<<"{";
-        for(int j=0;j<16;j++){
-            cout<<matrizR[i][j];
-            if(j!=15)
-                cout<<",";
-        }
-        if(i==0)
-            cout<<"}";
-        else
-            cout<<"},";
-    }
-    cout<<endl;
-    cout<<endl;
-
-    for(int i=15;i>-1;i--){
-        cout<<"{";
-        for(int j=0;j<16;j++){
-            cout<<matrizG[i][j];
-            if(j!=15)
-                cout<<",";
-        }
-        if(i==0)
-            cout<<"}";
-        else
-            cout<<"},";
-    }
-    cout<<endl;
-    cout<<endl;
-
-    for(int i=15;i>-1;i--){
-        cout<<"{";
-        for(int j=0;j<16;j++){
-            cout<<matrizB[i][j];
-            if(j!=15)
-                cout<<",";
-        }
-        if(i==0)
-            cout<<"}";
-        else
-            cout<<"},";
-    }
-    cout<<endl;
-    cout<<endl;*/
     EnvioDatos(matrizR,matrizG,matrizB);
 }
 
@@ -591,13 +587,18 @@ void ImageResized::sobresubColumn()
 
     for(int primero = 0; primero < 3; primero++)
     {
-        int Alto = Img.height(),Minimo = 0,Residuo = 0,saltador = 0,Residuo_Aux = 0;
-        int Arreglo[Img.width()][Img.height()];
+        int Alto = Img.height(),Minimo = 0;
+        short int **ArrayDinamic = new short int*[Img.width()];
+
+        for(int i = 0; i<Img.width();i++)
+        {
+            ArrayDinamic[i] = new short int[Img.height()];
+        }
 
         Minimo = Alto/16;
-        Residuo = Alto%16;
-        Residuo_Aux = Alto%16;
-        int Arreglo_muestre[Img.width()][16];
+        int Minimo_Aux = Minimo;
+        short int Arreglo_muestre[Img.width()][16];
+
 
         for(int i = 0; i<Img.width();i++)
         {
@@ -605,37 +606,53 @@ void ImageResized::sobresubColumn()
             {
                 if(primero == 0)
                 {
-                    Arreglo[i][j] = Img.pixelColor(i,j).red();
+                    *(*(ArrayDinamic+i)+j) = Img.pixelColor(i,j).red();
                 }
                 else if(primero == 1)
                 {
-                    Arreglo[i][j] = Img.pixelColor(i,j).green();
+                    *(*(ArrayDinamic+i)+j) = Img.pixelColor(i,j).green();
                 }
                 else if(primero == 2)
                 {
-                     Arreglo[i][j] = Img.pixelColor(i,j).blue();
+                     *(*(ArrayDinamic+i)+j) = Img.pixelColor(i,j).blue();
                 }
             }
         }
 
-        for(int i = 0; i<Img.width();i++)
+
+
+        for(short int i = 0; i<Img.width();i++)
         {
-            for(int j = 0;j<16;j++)
+            for(short int j = 0;j<16;j++)
             {
-                Arreglo_muestre[i][j] = Arreglo[i][j+saltador];
-                if(Residuo > 0 )
+                if(j == 0)
                 {
-                    saltador+=((Minimo+Residuo)-1);
-                    Residuo--;
+                    if(*(*(ArrayDinamic+i)+j) == 255)
+                    {
+                        Arreglo_muestre[i][j] = 254;
+                    }
+                    else
+                    {
+                        Arreglo_muestre[i][j] = *(*(ArrayDinamic+i)+j);
+                    }
                 }
                 else
                 {
-                    saltador+=(Minimo-1);
+                    if(*(*(ArrayDinamic+i)+Minimo) == 255)
+                    {
+                        Arreglo_muestre[i][j] = 254;
+                    }
+                    else
+                    {
+                        Arreglo_muestre[i][j] = *(*(ArrayDinamic+i)+Minimo);
+                    }
+
                 }
+                Minimo+=Minimo_Aux;
             }
-            saltador = 0;
-            Residuo = Residuo_Aux;
+            Minimo = Minimo_Aux;
         }
+
 
         for(int i = 0; i<Img.width();i++)
         {
@@ -644,19 +661,26 @@ void ImageResized::sobresubColumn()
                 if(primero == 0)
                 {
                     MatrizR[i][j] = Arreglo_muestre[i][j];
+                    //cout<<"["<<Arreglo_muestre[i][j]<<"]";
                 }
                 else if(primero == 1)
                 {
                     MatrizG[i][j] = Arreglo_muestre[i][j];
+                    //cout<<"["<<Arreglo_muestre[i][j]<<"]";
                 }
                 else if(primero == 2)
                 {
                     MatrizB[i][j] = Arreglo_muestre[i][j];
+                    //cout<<"["<<Arreglo_muestre[i][j]<<"]";
                 }
             }
-            cout<<endl;
+            //cout<<endl;
         }
+
+        delete [] ArrayDinamic;
+
     }
+
     int x=Img.width();
     int y=16;
     int factorx=1,factory=1,faltantex=0,faltantey=0, tramox=0, tramoy=0, tramoFx=0, tramoFy=0;
@@ -723,50 +747,6 @@ void ImageResized::sobresubColumn()
         faltantex=16-(x*factorx);
         factorx+=1;
     }
-    //A continuación se imprimen los diferentes valores RGB para la matriz de leds en Tinkercad,
-    //estos se imprimen desde la última fila hasta la primera.
-    for(int i=15;i>-1;i--){
-        cout<<"{";
-        for(int j=0;j<16;j++){
-            cout<<matrizR[i][j];
-            if(j!=15)
-                cout<<",";
-        }
-        if(i==0)
-            cout<<"}";
-        else
-            cout<<"},";
-    }
-    cout<<endl;
-    cout<<endl;
 
-    for(int i=15;i>-1;i--){
-        cout<<"{";
-        for(int j=0;j<16;j++){
-            cout<<matrizG[i][j];
-            if(j!=15)
-                cout<<",";
-        }
-        if(i==0)
-            cout<<"}";
-        else
-            cout<<"},";
-    }
-    cout<<endl;
-    cout<<endl;
-
-    for(int i=15;i>-1;i--){
-        cout<<"{";
-        for(int j=0;j<16;j++){
-            cout<<matrizB[i][j];
-            if(j!=15)
-                cout<<",";
-        }
-        if(i==0)
-            cout<<"}";
-        else
-            cout<<"},";
-    }
-    cout<<endl;
-    cout<<endl;
+    EnvioDatos(matrizR,matrizG,matrizB);
 }

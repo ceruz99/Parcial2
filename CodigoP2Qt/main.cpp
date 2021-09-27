@@ -1,5 +1,5 @@
 #include <iostream>
-#include <QString>
+#include <string>
 #include <QImage>
 #include "imageresized.h"
 
