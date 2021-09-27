@@ -1,23 +1,8 @@
 #include "imageresized.h"
 
-ImageResized::ImageResized()
-{
-
-}
-
 ImageResized::ImageResized(string Nombre)
 {
     Filename = Nombre;
-}
-
-void ImageResized::PonerNombre(string Nombre)
-{
-    Filename = Nombre;
-}
-
-string ImageResized::ObtenerNombre()
-{
-    return Filename;
 }
 
 void ImageResized::Deteccion_Tipo_Muestreo()
@@ -29,14 +14,14 @@ void ImageResized::Deteccion_Tipo_Muestreo()
 
     int Ancho = Imagen.width(), Alto = Imagen.height();
 
-    if(Ancho > 16 && Alto > 16)
+    if(Ancho >= 16 && Alto >= 16)//1000x16
     {
         submuestreo();
         cout<<"Se ha realizado el submuestreo \n";
         system("pause");
         system("cls");
     }
-    else if(Ancho <= 16 && Alto <= 16)
+    else if(Ancho <= 16 && Alto <= 16) //15x16
     {
         Sobremuestreo();
         cout<<"Se ha realizado el sobremuestreo\n";
@@ -50,14 +35,7 @@ void ImageResized::Deteccion_Tipo_Muestreo()
         system("pause");
         system("cls");
     }
-    else if(Ancho > 16 && Alto <=16 )
-    {
-        sobresubFilas();
-        cout<<"Se ha realizado el proceso de sobremuestreo y submuestro \n";
-        system("pause");
-        system("cls");
-    }
-    else if(Ancho < 16 && Alto > 16){        
+    else if(Ancho < 16 && Alto > 16){
         sobresubColumn();
         cout<<"Se ha realizado el proceso de sobremuestreo y submuestro \n";
         system("pause");
@@ -490,20 +468,16 @@ void ImageResized::sobresubFilas()
                 if(principal == 0)
                 {
                     MatrizR[i][j] = Arreglo_muestre_2[i][j];
-                    //cout<<"["<< Arreglo_muestre_2[i][j]<<"]";
                 }
                 else if(principal == 1)
                 {
                     MatrizG[i][j] = Arreglo_muestre_2[i][j];
-                    //cout<<"["<< Arreglo_muestre_2[i][j]<<"]";
                 }
                 else if(principal == 2)
                 {
                     MatrizB[i][j] = Arreglo_muestre_2[i][j];
-                    //cout<<"["<< Arreglo_muestre_2[i][j]<<"]";
                 }
             }
-            //cout<<endl;
         }
 
         delete [] ArrayDinamic;
@@ -661,20 +635,16 @@ void ImageResized::sobresubColumn()
                 if(primero == 0)
                 {
                     MatrizR[i][j] = Arreglo_muestre[i][j];
-                    //cout<<"["<<Arreglo_muestre[i][j]<<"]";
                 }
                 else if(primero == 1)
                 {
                     MatrizG[i][j] = Arreglo_muestre[i][j];
-                    //cout<<"["<<Arreglo_muestre[i][j]<<"]";
                 }
                 else if(primero == 2)
                 {
                     MatrizB[i][j] = Arreglo_muestre[i][j];
-                    //cout<<"["<<Arreglo_muestre[i][j]<<"]";
                 }
             }
-            //cout<<endl;
         }
 
         delete [] ArrayDinamic;

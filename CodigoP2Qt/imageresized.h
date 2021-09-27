@@ -11,18 +11,10 @@ using namespace std;
 
 class ImageResized
 {
+private:
     string Filename;
     QImage Img;
     ofstream Archivo;
-
-public:    
-    ImageResized();
-    ImageResized(string Nombre);
-
-    void PonerNombre(string Nombre);
-    string ObtenerNombre();
-
-    void Deteccion_Tipo_Muestreo();
 
     void Sobremuestreo();
     void submuestreo();
@@ -30,6 +22,13 @@ public:
 
     void sobresubFilas();
     void sobresubColumn();
+
+public:    
+    ImageResized(string Nombre);
+
+    void Deteccion_Tipo_Muestreo();
+
+
 };
 
 #endif // IMAGERESIZED_H
