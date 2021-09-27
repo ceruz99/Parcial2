@@ -40,19 +40,27 @@
 \tableofcontents
 \newpage
 \section{Clases Implementadas}\label{intro}
-Para el desarrollo del parcial se creo una clase llamada imageresized al cual tiene atributos privados y metodos publicos los cuales proporcionan la funciones para el muestreo de la imagen insertada en el programa. Esta no tiene metodos o el constructor sobrecargado y utiliza algunas libreria como lo son string y fstream para el manejo de datos y llevarlos hacia un documento.txt, o tambien QImage para la extraccion de datos de la imagen ingresada.
+Para el desarrollo del parcial se creo una clase llamada imageresized al cual tiene atributos y metodos privados y metodos publicos los cuales proporcionan la funciones para el muestreo de la imagen insertada en el programa. Esta no tiene metodos sobrecargados o el constructor sobrecargado y utiliza algunas librerias como lo son string y fstream para el manejo de datos y llevarlos hacia un documento.txt, o tambien QImage para la extraccion de datos de la imagen ingresada.
 
 
 \section{Esquema de la clase implementada }\label{contenido}
 
-//Falta informacion//
+En la Figura 1 se podra ver la estructura de la clase implementada en el entorno de desarrollo Qrcreator:
+
+\begin{figure}[h]
+\includegraphics[width=10 cm]{Estructura_clase.PNG}
+\centering
+\caption{Estructura clase}
+\label{fig:Estructura_clase}
+\end{figure}
+
 
 \section{Modulacion}\label{contenido}
 
-En el siguente esquema representado en el fisura 1 se podra ver la modulacion de la clase Imageresized
+En la figura 2 se podra ver la modulacion de la clase Imageresized:
 
 \begin{figure}[h]
-\includegraphics[width=14 cm]{Esquema.PNG}
+\includegraphics[width=13 cm]{Esquema.PNG}
 \centering
 \caption{Esquema de la clase}
 \label{fig:Esquema}
@@ -64,11 +72,11 @@ Para la construccion del circuito se utilizaron elementos como una placa electro
 
 Ahora por medio de la salida de la primera tirilla de neopixel se conectara a la entrada de la siguiente tirilla de neopixel, al igual que la potencia y la tierra repitiendo este proceso hasta terminar con las tiras.\\
 
-A continuacion se podra ver un pequeño ejemplo en la figura 2.\\
+A continuacion se podra ver un pequeño ejemplo en la figura 3.\\
 
 
 \begin{figure}[h]
-\includegraphics[width=14 cm]{Ejemplo_circuito.PNG}
+\includegraphics[width=8 cm]{Ejemplo_circuito.PNG}
 \centering
 \caption{Ejemplo estructura circuito}
 \label{fig:Ejemplo_circuito}
@@ -79,9 +87,9 @@ A continuacion se podra ver un pequeño ejemplo en la figura 2.\\
 
 Durante el desarrollo del programa y montaje del circuito se presentaron alguno problemas como puede ser:\\
 
---Al utilizar tres arreglos para alamcenar los datos en tinkercad la ejecucion y en general para mostrar la bandera se tardaba bastante tiempo, para solucionarlo se debio de utilizar un arreglo tridimensional y "for" anidados para mandar los datos.\\
+--Al utilizar tres arreglos para almacenar los datos en tinkercad la ejecucion y en general para mostrar la bandera se tardaba bastante tiempo, para solucionarlo se debio de utilizar un arreglo tridimensional y (for)  anidados para mandar los datos.\\
 
---Al ejecutar el programa en tinkercad seguia tardando mucho, esto ya que era problema del propio computador y conexion a internet de un participante, por el contrario el del otro compañero se ejecutaba rapido y eficaz.Esto ocaciono que algunas veces se cambiara el Hardware, pero al final no hubo una necesidad de cambiar la estrucutura inicial del mismo.\\
+--Al ejecutar el programa en tinkercad seguia tardando mucho, esto ya que era problema del propio computador y conexion a internet de un participante, por el contrario el del otro compañero se ejecutaba rapido y eficaz.Esto ocaciono que algunas veces se cambiara el Hardware, pero al final no hubo una necesidad de cambiar la estructura inicial del mismo.\\
 
 --En el programa se trabajo especialmente con arreglos, esto ocasiono que al ingresar imagenes muy grandes se llenara el stack, para dar solucion a esto se recurrio a mamoria dinamica.\\
 
