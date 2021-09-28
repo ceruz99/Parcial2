@@ -18,10 +18,10 @@ int main(){
         switch (opcion) {
         case 1:{
             string nombre;
+            string ruta="../CodigoP2Qt/Images/";
             cout<<"Ingrese el nombre de la imagen que desea redimensionar para la matriz de leds: ";
-            cin.ignore();
-            getline(cin, nombre);
-            //cin>>nombre;
+            cin>>nombre;
+            nombre=ruta+nombre;
             system("cls");
             ImageResized imagen(nombre);
             imagen.Deteccion_Tipo_Muestreo();
