@@ -25,9 +25,7 @@ private:
 
 public:    
     ImageResized(string Nombre);
-
     void Deteccion_Tipo_Muestreo();
-
 
 };
 
