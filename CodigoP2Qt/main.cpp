@@ -3,8 +3,10 @@
 #include <QImage>
 #include "imageresized.h"
 
-using namespace std;
+//Se define la macro que representa la ruta donde se encuentra la imagen
+#define PATH_IMG "../CodigoP2Qt/Images/"
 
+using namespace std;
 
 int main(){
     bool trabajando=true;
@@ -18,12 +20,10 @@ int main(){
         switch (opcion) {
         case 1:{
             string nombre;
-            string ruta="../CodigoP2Qt/Images/";
             cout<<"Ingrese el nombre de la imagen que desea redimensionar para la matriz de leds: ";
-            //cin>>nombre;
             cin.ignore();
             getline(cin,nombre);
-            nombre=ruta+nombre+".jpg";
+            nombre=PATH_IMG+nombre+".jpg";
             system("cls");
             ImageResized imagen(nombre);
             imagen.Deteccion_Tipo_Muestreo();
