@@ -20,7 +20,9 @@ int main(){
             string nombre;
             string ruta="../CodigoP2Qt/Images/";
             cout<<"Ingrese el nombre de la imagen que desea redimensionar para la matriz de leds: ";
-            cin>>nombre;
+            //cin>>nombre;
+            cin.ignore();
+            getline(cin,nombre);
             nombre=ruta+nombre+".jpg";
             system("cls");
             ImageResized imagen(nombre);
