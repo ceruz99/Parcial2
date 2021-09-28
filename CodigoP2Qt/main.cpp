@@ -5,6 +5,9 @@
 
 //Se define la macro que representa la ruta donde se encuentra la imagen
 #define PATH_IMG "../CodigoP2Qt/Images/"
+//Se define la macro para la extension
+#define EXTENSION ".jpg"
+
 
 using namespace std;
 
@@ -23,7 +26,7 @@ int main(){
             cout<<"Ingrese el nombre de la imagen que desea redimensionar para la matriz de leds: ";
             cin.ignore();
             getline(cin,nombre);
-            nombre=PATH_IMG+nombre+".jpg";
+            nombre=PATH_IMG+nombre+EXTENSION;
             system("cls");
             ImageResized imagen(nombre);
             imagen.Deteccion_Tipo_Muestreo();
