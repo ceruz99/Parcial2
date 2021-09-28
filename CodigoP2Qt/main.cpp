@@ -21,7 +21,7 @@ int main(){
             string ruta="../CodigoP2Qt/Images/";
             cout<<"Ingrese el nombre de la imagen que desea redimensionar para la matriz de leds: ";
             cin>>nombre;
-            nombre=ruta+nombre;
+            nombre=ruta+nombre+".jpg";
             system("cls");
             ImageResized imagen(nombre);
             imagen.Deteccion_Tipo_Muestreo();
